@@ -1,70 +1,71 @@
 import { createElement } from '../helper/createElement.js';
+import { declOfNum } from '../helper/declOfNum.js';
 
 export const createCategory = (app) => {
-  const category = createElement('section', {
-    className: 'category section-offset',
-  });
-
-  const container = createElement('div', {
-    className: 'container',
-  });
-  category.append(container);
-
-  const categoryList = createElement('ul', {
-    className: 'category__list',
-  });
-  container.append(categoryList);
-
-  const createCategoryCard = (data) => {
-    const card = createElement('li', {
-      className: 'category__item',
+    const category = createElement('section', {
+        className: 'category section-offset',
     });
-    card.dataset.id = data.id;
 
-    const buttonCard = createElement('button', {
-      className: 'category__card',
+    const container = createElement('div', {
+        className: 'container',
     });
-    card.append(buttonCard);
+    category.append(container);
 
-    const buttonSpanTitle = createElement('span', {
-      className: 'category__title',
-      textContent: data.title,
+    const categoryList = createElement('ul', {
+        className: 'category__list',
     });
-    buttonCard.append(buttonSpanTitle);
+    container.append(categoryList);
 
-    const buttonSpanPairs = createElement('span', {
-      className: 'category__pairs',
-      textContent: `${data.length} пар`,
-    });
-    buttonCard.append(buttonSpanPairs);
+    const createCategoryCard = (data) => {
+        const card = createElement('li', {
+            className: 'category__item',
+        });
+        card.dataset.id = data.id;
 
-    const buttonCardEdit = createElement('button', {
-      className: 'category__btn category__edit',
-      ariaLabel: 'редактировать',
-    });
-    card.append(buttonCardEdit);
+        const buttonCard = createElement('button', {
+            className: 'category__card',
+        });
+        card.append(buttonCard);
 
-    const buttonCardDel = createElement('button', {
-      className: 'category__btn category__del',
-      ariaLabel: 'удалить',
-    });
-    card.append(buttonCardDel);
+        const buttonSpanTitle = createElement('span', {
+            className: 'category__title',
+            textContent: data.title,
+        });
+        buttonCard.append(buttonSpanTitle);
 
-    return card;
-  };
+        const buttonSpanPairs = createElement('span', {
+            className: 'category__pairs',
+            textContent: declOfNum(data.length, ['пара', 'пары', 'пар']),
+        });
+        buttonCard.append(buttonSpanPairs);
 
-  const mount = (data) => {
-    categoryList.textContent = '';
-    app.append(category);
+        const buttonCardEdit = createElement('button', {
+            className: 'category__btn category__edit',
+            ariaLabel: 'редактировать',
+        });
+        card.append(buttonCardEdit);
 
-    const cards = data.map(createCategoryCard);
+        const buttonCardDel = createElement('button', {
+            className: 'category__btn category__del',
+            ariaLabel: 'удалить',
+        });
+        card.append(buttonCardDel);
 
-    categoryList.append(...cards);
-  };
+        return card;
+    };
 
-  const unmount = () => {
-    category.remove();
-  };
+    const mount = (data) => {
+        categoryList.textContent = '';
 
-  return { mount, unmount, categoryList };
+        const cards = data.map(createCategoryCard);
+        categoryList.append(...cards);
+
+        app.append(category);
+    };
+
+    const unmount = () => {
+        category.remove();
+    };
+
+    return { mount, unmount, categoryList };
 };
