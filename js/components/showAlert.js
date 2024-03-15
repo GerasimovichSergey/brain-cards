@@ -1,5 +1,6 @@
 import { createElement } from '../helper/createElement.js';
 
+
 export const showAlert = (text) => {
     const alertBlock = createElement('div', {
         className: 'alert',
